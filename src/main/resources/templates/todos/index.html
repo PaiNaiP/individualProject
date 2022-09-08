@@ -15,7 +15,7 @@
   <input type="submit" value="search" class="btn btn-outline-secondary">
 </form>
 </div>
-  <a class="btn btn-primary stretched-link" href="add" style="height:40px;margin-top:18px;">Добавить задачу</a>
+
 </div>
 
 <div style="display: flex;">
@@ -25,10 +25,12 @@
         <h2 class="card-title" th:text="${el.title}"></h2>
         <h2 class="card-subtitle mb-2 text-muted" th:text="${el.todo}"></h2>
         <p class="card-text" th:text="${el.min}"></p>
+        <a th:href="'/todos/' + ${el.id}">Подробнее..</a>
+
       </div>
     </div>
   </div>
 </div>
-
+<a  href="add" style="height:40px;margin:18px;">Добавить задачу</a>
 </body>
 </html>

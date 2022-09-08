@@ -6,12 +6,11 @@ import com.example.calculatror.repo.filmsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/todos")
@@ -48,5 +47,62 @@ public class TodosController {
         List<todos> todosList = todosRepository.findByTitleContains(title);
         model.addAttribute("todos", todosList);
         return "todos/index";
+    }
+    @GetMapping("/{id}")
+    public String read(
+            @PathVariable("id") int id,
+            Model model)
+    {
+        Optional<todos> newsList = todosRepository.findById(id);
+        ArrayList<todos> filmsArrayList = new ArrayList<>();
+        newsList.ifPresent(filmsArrayList::add);
+        model.addAttribute("todos", filmsArrayList);
+        return "todos/info-todos";
+    }
+
+    @GetMapping("/del/{id}")
+    public String del(
+            @PathVariable("id") int id,
+            Model model)
+    {
+        todosRepository.deleteById(id);
+        return "redirect:/todos/";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(
+            @PathVariable("id") int id,
+            Model model)
+    {
+        if(!todosRepository.existsById(id))
+        {
+            return "redirect:/todos/";
+        }
+        Optional<todos> newsList = todosRepository.findById(id);
+        ArrayList<todos> filmsArrayList = new ArrayList<>();
+        newsList.ifPresent(filmsArrayList::add);
+        model.addAttribute("todos", filmsArrayList);
+        return "todos/edit-todos";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editFilms(
+            @PathVariable("id") int Id,
+            @RequestParam("title") String title,
+            @RequestParam("about") String about,
+            @RequestParam("todo") String todo,
+            @RequestParam("min") Integer min,
+            @RequestParam("restart") Integer restart,
+            Model model
+    ){
+        todos todos = todosRepository.findById(Id).orElseThrow();
+        todos.setTitle(title);
+        todos.setAbout(about);
+        todos.setTodo(todo);
+        todos.setMin(min);
+        todos.setRestart(restart);
+
+        todosRepository.save(todos);
+        return  "redirect:/todos/";
     }
 }

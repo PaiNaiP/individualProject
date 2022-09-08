@@ -5,12 +5,11 @@ import com.example.calculatror.repo.filmsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/films")
@@ -47,5 +46,63 @@ public class FilmsController {
         List<films> newsList = filmsRepository.findByTitleContains(title);
         model.addAttribute("films", newsList);
         return "films/index";
+    }
+
+    @GetMapping("/{id}")
+    public String read(
+            @PathVariable("id") int id,
+            Model model)
+    {
+        Optional<films> newsList = filmsRepository.findById(id);
+        ArrayList<films> filmsArrayList = new ArrayList<>();
+        newsList.ifPresent(filmsArrayList::add);
+        model.addAttribute("films", filmsArrayList);
+        return "films/info-films";
+    }
+
+    @GetMapping("/del/{id}")
+    public String del(
+            @PathVariable("id") int id,
+            Model model)
+    {
+        filmsRepository.deleteById(id);
+        return "redirect:/films/";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(
+            @PathVariable("id") int id,
+            Model model)
+    {
+        if(!filmsRepository.existsById(id))
+        {
+            return "redirect:/films/";
+        }
+        Optional<films> newsList = filmsRepository.findById(id);
+        ArrayList<films> filmsArrayList = new ArrayList<>();
+        newsList.ifPresent(filmsArrayList::add);
+        model.addAttribute("films", filmsArrayList);
+        return "films/edit-films";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editFilms(
+            @PathVariable("id") int Id,
+            @RequestParam("title") String title,
+            @RequestParam("description") String description,
+            @RequestParam("direct") String direct,
+            @RequestParam("likes") Integer likes,
+            @RequestParam("siries") Integer siries,
+            Model model
+    ){
+        films films = filmsRepository.findById(Id).orElseThrow();
+        films.setTitle(title);
+        films.setDescription(description);
+        films.setDirect(direct);
+        films.setLikes(likes);
+        films.setSiries(siries);
+
+        filmsRepository.save(films);
+        return  "redirect:/films/";
     }
 }
