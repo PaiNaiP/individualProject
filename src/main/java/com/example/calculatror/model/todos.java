@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.*;
 
 @Entity
 public class todos {
@@ -11,7 +12,18 @@ public class todos {
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
 
-    String title, about, todo;
+    @NotEmpty(message = "Поле не пустое")
+    @Size(message = "Строка не может быть больше ", min = 3, max = 100)
+    String title, todo;
+
+    @NotEmpty(message = "Поле не пустое")
+    @Size(message = "Строка не может быть больше ", min = 3, max = 10000)
+    String about;
+
+    @Min(message = "Количество не отризательное", value = 0)
+    @Max(message = "Количество не больше 100", value = 10)
+
+    @NotNull(message = "Не, это обязательно")
     Integer min, restart;
 
     public todos(String title, String about, String todo, Integer min, Integer restart) {

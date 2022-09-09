@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.*;
 
 @Entity
 public class films {
@@ -11,8 +12,40 @@ public class films {
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
 
-    String title, description, direct;
+    @NotEmpty(message = "Поле не пустое")
+    @Size(message = "Строка не может быть больше ", min = 3, max = 100)
+    String title;
+
+    @NotEmpty(message = "Поле не пустое")
+    @Size(message = "Строка не может быть больше ", min = 3, max = 10000)
+    String description;
+
+    @NotEmpty(message = "Поле не пустое")
+    @Size(message = "Строка не может быть больше ", min = 3, max = 100)
+    String direct;
+
+
+    @Min(message = "Количество не отризательное", value = 0)
+    @Max(message = "Количество не больше 100", value = 10)
+
+    @NotNull(message = "Не, это обязательно")
     Integer siries, likes;
+
+//    @NotBlank
+//    @DecimalMax()
+//    @DecimalMin()
+//    @Digits()
+//    @Negative
+//    @NegativeOrZero
+//    @Positive
+//    @PositiveOrZero
+//
+//    @Future
+//    @FutureOrPresent
+//    @Past
+//    @PastOrPresent
+//    @Email
+//    @AssertFalse
 
     public films(String title, String description, String direct, Integer siries, Integer likes) {
         this.title = title;

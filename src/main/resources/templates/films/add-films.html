@@ -7,17 +7,22 @@
 </head>
 <body>
 <div th:insert="fragment/header :: defaultHeader"></div>
-<form action="/films/add" method="post">
+<form action="/films/add" method="post" th:object="${films}">
   <p>Название:</p><br>
-  <input type="text" id="title" name="title" placeholder="title">
+  <input type="text" id="title" th:field = "*{title}" name="title" placeholder="title">
+  <div th:if="${#fields.hasErrors('title')}" th:errors = "*{title}"></div>
   <p>Описание: </p><br>
   <input type="text" id="description" name="description" placeholder="description">
+  <div th:if="${#fields.hasErrors('description')}" th:errors = "*{description}"></div>
   <p>Режиссёр: </p><br>
   <input type="text" id="direct" name="direct" placeholder="direct">
+  <div th:if="${#fields.hasErrors('direct')}" th:errors = "*{direct}"></div>
   <p>Лайки: </p><br>
   <input type="number" id="likes" name="likes" placeholder="likes">
+  <div th:if="${#fields.hasErrors('likes')}" th:errors = "*{likes}"></div>
   <p>Количество частей: </p><br>
   <input type="number" id="siries" name="siries" placeholder="siries">
+  <div th:if="${#fields.hasErrors('siries')}" th:errors = "*{siries}"></div>
   <input type="submit" value="Добавить фильм">
 </form>
 <a href="/films/">Назад</a>

@@ -9,17 +9,22 @@
 <body>
 <div th:insert="fragment/header :: defaultHeader"></div>
 <div th:each="el : ${todos}">
-  <form th:action="'/todos/edit/'+${el.id}" method="post">
+  <form th:object="${todos}" th:action="'/todos/edit/'+${el.id}" method="post">
     <p>Название:</p><br>
-    <input type="text" id="title" name="title" th:value="${el.title}">
+    <input type="text" th:field = "*{title}" id="title" name="title" th:value="${el.title}">
+    <div th:if="${#fields.hasErrors('title')}" th:errors = "*{title}"></div>
     <p>Описание: </p><br>
-    <input type="text" id="about" name="about" th:value="${el.about}">
+    <input type="text" th:field = "*{about}" id="about" name="about" th:value="${el.about}">
+    <div th:if="${#fields.hasErrors('about')}" th:errors = "*{about}"></div>
     <p>Задача: </p><br>
-    <input type="text" id="todo" name="todo" th:value="${el.todo}">
+    <input type="text" th:field = "*{todo}" id="todo" name="todo" th:value="${el.todo}">
+    <div th:if="${#fields.hasErrors('todo')}" th:errors = "*{todo}"></div>
     <p>Минуты: </p><br>
-    <input type="number" id="min" name="min" th:value="${el.min}">
+    <input type="number" th:field = "*{min}" id="min" name="min" th:value="${el.min}">
+    <div th:if="${#fields.hasErrors('min')}" th:errors = "*{min}"></div>
     <p>Количество повторений: </p><br>
-    <input type="number" id="restart" name="restart" th:value="${el.restart}">
+    <input type="number" th:field = "*{restart}" id="restart" name="restart" th:value="${el.restart}">
+    <div th:if="${#fields.hasErrors('restart')}" th:errors = "*{restart}"></div>
     <input type="submit" value="Добавить задачу">
   </form>
   <div/>

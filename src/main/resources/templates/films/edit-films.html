@@ -9,21 +9,26 @@
 <body>
 <div th:insert="fragment/header :: defaultHeader"></div>
 <div th:each="el : ${films}">
-<form th:action="'/films/edit/'+${el.id}" method="post">
+<form th:object="${films}" th:action="'/films/edit/'+${el.id}" method="post">
   <p>Название:</p><br>
-  <input th:value="${el.title}" type="text" id="title" name="title" th:placeholder="${el.title}">
+  <input th:field="*{title}" th:value="${el.title}" type="text" id="title" name="title" th:placeholder="${el.title}">
+  <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
   <p>Описание: </p><br>
-  <input type="text" id="description" name="description" th:placeholder="${el.description}" th:value="${el.description}">
+  <input type="text" th:action="${el.description}" id="description" name="description" th:placeholder="${el.description}" th:value="${el.description}">
+  <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
   <p>Режиссёр: </p><br>
-  <input type="text" id="direct" name="direct" th:placeholder="${el.direct}" th:value="${el.direct}">
+  <input type="text" th:action="${el.direct}" id="direct" name="direct" th:placeholder="${el.direct}" th:value="${el.direct}">
+  <div th:if="${#fields.hasErrors('direct')}" th:errors="*{direct}"></div>
   <p>Лайки: </p><br>
-  <input type="number" id="likes" name="likes" th:placeholder="${el.likes}" th:value="${el.likes}">
+  <input type="number" th:action="${el.likes}" id="likes" name="likes" th:placeholder="${el.likes}" th:value="${el.likes}">
+  <div th:if="${#fields.hasErrors('likes')}" th:errors="*{likes}"></div>
   <p>Количество частей: </p><br>
-  <input type="number" id="siries" name="siries" th:placeholder="${el.siries}" th:value="${el.siries}">
+  <input type="number" th:action="${el.siries}" id="siries" name="siries" th:placeholder="${el.siries}" th:value="${el.siries}">
+  <div th:if="${#fields.hasErrors('siries')}" th:errors="*{siries}"></div>
   <input type="submit" value="Изменить фильм">
 </form>
   <div/>
 <a href="/films/">Назад</a>
-
+</div>
 </body>
 </html>

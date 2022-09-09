@@ -5,8 +5,11 @@ import com.example.calculatror.repo.filmsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.Binding;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,18 +27,16 @@ public class FilmsController {
         return "films/index";
     }
     @GetMapping("/add")
-    public String add_vies(Model model){
+    public String add_vies(films films,Model model){
         return "films/add-films";
     }
     @PostMapping("/add")
-    public String post(@RequestParam("title") String title,
-                       @RequestParam("description") String description,
-                       @RequestParam("direct") String direct,
-                       @RequestParam("likes") Integer likes,
-                       @RequestParam("siries") Integer siries,
+    public String post(@Valid films newFilms,
+                       BindingResult bindingResult,
                        Model model){
-        films filmsOne = new films(title, description, direct, likes, siries);
-        filmsRepository.save(filmsOne);
+        if (bindingResult.hasErrors())
+            return "films/add-films";
+        filmsRepository.save(newFilms);
         return "redirect:/films/";
     }
     @GetMapping("/search")
@@ -81,28 +82,26 @@ public class FilmsController {
         Optional<films> newsList = filmsRepository.findById(id);
         ArrayList<films> filmsArrayList = new ArrayList<>();
         newsList.ifPresent(filmsArrayList::add);
-        model.addAttribute("films", filmsArrayList);
+        model.addAttribute("films", filmsArrayList.get(0));
         return "films/edit-films";
     }
 
     @PostMapping("/edit/{id}")
     public String editFilms(
             @PathVariable("id") int Id,
-            @RequestParam("title") String title,
-            @RequestParam("description") String description,
-            @RequestParam("direct") String direct,
-            @RequestParam("likes") Integer likes,
-            @RequestParam("siries") Integer siries,
+            @ModelAttribute("films") @Valid films newFilm, BindingResult bindingResult,
             Model model
     ){
-        films films = filmsRepository.findById(Id).orElseThrow();
-        films.setTitle(title);
-        films.setDescription(description);
-        films.setDirect(direct);
-        films.setLikes(likes);
-        films.setSiries(siries);
+        if(!filmsRepository.existsById(Id))
+        {
+            return "redirect:/films/";
+        }
+        if (bindingResult.hasErrors())
+            return "films/edit-films";
 
-        filmsRepository.save(films);
+        newFilm.setId(Id);
+
+        filmsRepository.save(newFilm);
         return  "redirect:/films/";
     }
 }

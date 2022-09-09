@@ -3,11 +3,14 @@ package com.example.calculatror.controller;
 import com.example.calculatror.model.films;
 import com.example.calculatror.model.todos;
 import com.example.calculatror.repo.filmsRepository;
+import com.example.calculatror.repo.todosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,18 +28,16 @@ public class TodosController {
         return "todos/index";
     }
     @GetMapping("/add")
-    public String add_vies(Model model){
+    public String add_vies(todos todos,Model model){
         return "todos/add-todos";
     }
     @PostMapping("/add")
-    public String post(@RequestParam("title") String title,
-                       @RequestParam("about") String about,
-                       @RequestParam("todo") String todo,
-                       @RequestParam("min") Integer min,
-                       @RequestParam("restart") Integer restart,
+    public String post(@Valid todos newTodo,
+                       BindingResult bindingResult,
                        Model model){
-        todos todosOne = new todos(title, about, todo, min, restart);
-        todosRepository.save(todosOne);
+        if (bindingResult.hasErrors())
+            return "todos/add-todos";
+        todosRepository.save(newTodo);
         return "redirect:/todos/";
     }
     @GetMapping("/search")
@@ -79,30 +80,28 @@ public class TodosController {
             return "redirect:/todos/";
         }
         Optional<todos> newsList = todosRepository.findById(id);
-        ArrayList<todos> filmsArrayList = new ArrayList<>();
-        newsList.ifPresent(filmsArrayList::add);
-        model.addAttribute("todos", filmsArrayList);
+        ArrayList<todos> todosArrayList = new ArrayList<>();
+        newsList.ifPresent(todosArrayList::add);
+        model.addAttribute("todos", todosArrayList.get(0));
         return "todos/edit-todos";
     }
 
     @PostMapping("/edit/{id}")
-    public String editFilms(
+    public String editTodos(
             @PathVariable("id") int Id,
-            @RequestParam("title") String title,
-            @RequestParam("about") String about,
-            @RequestParam("todo") String todo,
-            @RequestParam("min") Integer min,
-            @RequestParam("restart") Integer restart,
+            @ModelAttribute("todos") @Valid todos newTodo, BindingResult bindingResult,
             Model model
     ){
-        todos todos = todosRepository.findById(Id).orElseThrow();
-        todos.setTitle(title);
-        todos.setAbout(about);
-        todos.setTodo(todo);
-        todos.setMin(min);
-        todos.setRestart(restart);
+        if(!todosRepository.existsById(Id))
+        {
+            return "redirect:/todos/";
+        }
+        if (bindingResult.hasErrors())
+            return "todos/edit-todos";
 
-        todosRepository.save(todos);
+        newTodo.setId(Id);
+
+        todosRepository.save(newTodo);
         return  "redirect:/todos/";
     }
 }
