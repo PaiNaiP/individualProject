@@ -12,12 +12,12 @@
     You have been logged out.
 </div>
 <div th:if="${error}">
-    <p th:value="${error}" style="color: red"></p>
+    <p th:value="${error}" ></p>
 </div>
 
 <form th:action="@{/registration}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
+    <div><label> User Name : <br/> <input type="text" name="username"/> </label></div>
+    <div><label> Password: <br/> <input type="password" name="password"/> </label></div>
     <div><input type="submit" value="Sign Up"/></div>
 </form>
 </body>

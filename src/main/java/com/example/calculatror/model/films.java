@@ -13,15 +13,15 @@ public class films {
     int id;
 
     @NotEmpty(message = "Поле не пустое")
-    @Size(message = "Строка не может быть больше ", min = 3, max = 100)
+    @Size(message = "Строка не может быть такой ", min = 3, max = 100)
     String title;
 
     @NotEmpty(message = "Поле не пустое")
-    @Size(message = "Строка не может быть больше ", min = 3, max = 10000)
+    @Size(message = "Строка не может быть такой ", min = 3, max = 10000)
     String description;
 
     @NotEmpty(message = "Поле не пустое")
-    @Size(message = "Строка не может быть больше ", min = 3, max = 100)
+    @Size(message = "Строка не может быть такой ", min = 3, max = 100)
     String direct;
 
 
