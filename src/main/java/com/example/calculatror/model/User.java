@@ -1,6 +1,7 @@
 package com.example.calculatror.model;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -19,7 +20,16 @@ public class User {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+    @OneToMany(mappedBy = "users", fetch = FetchType.EAGER)
+    private Collection<checks> tenats;
 
+    public Collection<checks> getTenats() {
+        return tenats;
+    }
+
+    public void setTenats(Collection<checks> tenats) {
+        this.tenats = tenats;
+    }
 
     public User() {
     }

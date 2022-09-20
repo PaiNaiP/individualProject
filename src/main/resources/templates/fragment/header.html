@@ -1,6 +1,6 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <div th:fragment="defaultHeader">
-  <header class="p-3 text-bg-dark">
+  <header class="navbar navbar-light" style="background-color: #E5D1E9;">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
@@ -8,21 +8,19 @@
         </a>
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+          <li><a href="/" class="nav-link px-2 text-secondary">Home</a></li>
+          <li><a href="/agelimit/" class="nav-link px-2 text-secondary">Age Limit</a></li>
+          <li><a href="/genres/" class="nav-link px-2 text-secondary">Genres</a></li>
+          <li><a href="/tags/" class="nav-link px-2 text-secondary">Tags</a></li>
+          <li><a href="/reviews/" class="nav-link px-2 text-secondary">Reviews</a></li>
+          <li><a href="/places/" class="nav-link px-2 text-secondary">Places</a></li>
+          <li><a href="/actors/" class="nav-link px-2 text-secondary">Actors</a></li>
+          <li><a href="/direct/" class="nav-link px-2 text-secondary">Direct</a></li>
+          <li><a href="/films/" class="nav-link px-2 text-secondary">Film</a></li>
+          <li><a href="/tickets/" class="nav-link px-2 text-secondary">Ticket</a></li>
+          <li><a href="/checks/" class="nav-link px-2 text-secondary">Checks</a></li>
+          <li><a href="/login/" class="nav-link px-2 text-secondary">Log out</a></li>
         </ul>
-
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-          <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
-        </form>
-
-        <div class="text-end">
-          <button type="button" class="btn btn-outline-light me-2">Login</button>
-          <button type="button" class="btn btn-warning">Sign-up</button>
-        </div>
       </div>
     </div>
   </header>

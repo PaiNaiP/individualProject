@@ -3,10 +3,11 @@ package com.example.calculatror.model;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum Role implements GrantedAuthority {
-    USER, ADMIN;
+    USER, ADMIN, WORKER;
 
     @Override
     public String getAuthority() {
         return name();
     }
+
 }
