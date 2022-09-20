@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Genres</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+</head>
+<body>
+<div th:insert="fragment/header :: defaultHeader"></div>
+<div th:each="el : ${films}" style="display:flex;">
+    <form style="margin: 0 auto; margin-top: 60px;" th:object="${films}" th:action="'/films/edit/'+${el.id}" method="post">
+        <div class="form-group">
+            <label>Название:</label><br>
+            <input class="form-control"  type="text"  name="title" th:value="${el.title}">
+        </div>
+        <div class="form-group">
+            <label>Год:</label><br>
+            <input class="form-control"  type="text"  name="year" th:value="${el.year}">
+        </div>
+        <div class="form-group">
+            <label>Описание:</label><br>
+            <input class="form-control"  type="text"  name="film" th:value="${el.film}">
+        </div>
+        <div class="form-group">
+            <label>Студия:</label><br>
+            <input class="form-control"  type="text"  name="studiay" th:value="${el.studiay}">
+        </div>
+        <select  name="titlee" >
+            <div th:each="element : ${tags}">
+                <option th:text="${element.titlee}"></option>
+            </div>
+        </select>
+        <select  name="genree">
+            <div th:each="element : ${genres}">
+                <option th:text="${element.genree}"></option>
+            </div>
+        </select>
+        <select  name="agelimitrus">
+            <div th:each="element : ${agelimit}">
+                <option th:text="${element.agelimitrus}"></option>
+            </div>
+        </select>
+        <select  name="surname">
+            <div th:each="element : ${actors}">
+                <option th:text="${element.surname}"></option>
+            </div>
+        </select>
+        <select  name="surnamey">
+            <div th:each="element : ${direct}">
+                <option th:text="${element.surnamey}"></option>
+            </div>
+        </select>
+        <input class="btn btn-primary" type="submit" value="Изменить фильм" style="margin-top: 20px;">
+        <br/>
+        <a href="/films/">Назад</a>
+    </form>
+    <div/>
+
+</div>
+</body>
+</html>

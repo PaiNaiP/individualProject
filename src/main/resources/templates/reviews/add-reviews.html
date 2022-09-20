@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>reviews</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+</head>
+<body>
+<div th:insert="fragment/header :: defaultHeader"></div>
+<div style="display:flex;">
+  <form action="/reviews/add" method="post" th:object="${reviews}" style="margin: 0 auto; margin-top: 60px;">
+    <div class="form-group">
+      <label>Наименование отзыва:</label>
+      <input type="text" class="form-control" name="titling" placeholder="title">
+    </div>
+    <div class="form-group">
+      <label>Лайки:</label>
+      <input type="number" max="10" min="0" class="form-control" name="likes" placeholder="likes">
+    </div>
+    <div class="form-group">
+      <label>Отзыв:</label>
+      <input type="text" class="form-control" name="review" placeholder="review">
+    </div>
+    <select  name="title">
+      <div th:each="element : ${films}">
+        <option th:text="${element.title}"></option>
+      </div>
+    </select>
+    <input class="btn btn-primary" type="submit" value="Добавить отзыв"><br/>
+    <a href="/reviews/">Назад</a>
+  </form>
+</div>
+</body>
+</html>
